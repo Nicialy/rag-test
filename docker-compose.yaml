@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # 1. СЕРВИС ГРАФА ЗНАНИЙ (Knowledge Graph - Neo4j)
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j-knowledge-graph
+    ports:
+      - "7474:7474" # HTTP/Browser UI
+      - "7687:7687" # Bolt Protocol (для Python-клиента)
+    environment:
+      # Важно: Установите свой пароль
+      NEO4J_AUTH: neo4j/test12345
+      # NEO4J_db_mode: HA
+    volumes:
+      - ./data/neo4j:/data
+      - ./logs/neo4j:/logs
+
+  # 2. СЕРВИС ВЕКТОРНОГО ХРАНИЛИЩА (Vector Store - Weaviate)
+  weaviate:
+    image: semitechnologies/weaviate:latest
+    container_name: weaviate-vector-store
+    ports:
+      - "8080:8080" # Weaviate REST/GraphQL API
+      - "50051:50051" # gRPC
+    environment:
+      # Настройки Weaviate
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS: 'true'
+      PERSISTENCE_DIRECTORY: '/var/lib/weaviate'
+      # Векторизатор (используем HuggingFace-модель для локальной работы)
+      ENABLE_MODULES: 'text2vec-huggingface'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-huggingface'
+      HUGGINGFACE_INFERENCE_API: 'https://api-inference.huggingface.co'
+      # Важно: для локального тестирования требуется API ключ HuggingFace
+      HUGGINGFACE_APIKEY: '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'
+    volumes:
+      - ./data/weaviate:/var/lib/weaviate
