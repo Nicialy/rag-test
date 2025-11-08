@@ -53,7 +53,9 @@ coverage.xml
 .pytest_cache/
 cover/
 .ruff_cache
-
+*.sqlite3
+*.bin
+*.txt
 # Translations
 *.mo
 *.pot
