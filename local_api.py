@@ -2,21 +2,16 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# --- Установите: pip install "pydantic-ai-slim[mistral]" python-dotenv markitdown[pdf] chromadb langchain-text-splitters langchain-huggingface ---
-
-# --- RAG/Индексация компоненты ---
 from markitdown import MarkItDown
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-# ИСПРАВЛЕННЫЙ ИМПОРТ для Sentence Transformers через LangChain:
 from chromadb.utils import embedding_functions
 from chromadb import PersistentClient
 
-# --- Pydantic AI/LLM компоненты ---
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, Tool
 from typing import List, Optional
 
-# --- КОНФИГУРАЦИЯ ---
+
 load_dotenv()
 DATA_PATH = Path("./my_data") 
 CHROMA_PATH = "chroma_db"
@@ -41,7 +36,7 @@ class RAGResponse(BaseModel):
     answer: str = Field(description="Подробный ответ на вопрос, основанный только на предоставленном контексте.")
     sources: List[str] = Field(description="Список уникальных названий исходных документов, из которых был получен контекст.")
 
-# --- 1. ФУНКЦИИ ИНДЕКСАЦИИ И CHROMADB ---
+
 def create_or_load_vector_db():
     """
     Создает или загружает ChromaDB Collection и заполняет ее документами, если она пуста.
@@ -53,7 +48,7 @@ def create_or_load_vector_db():
     collection_name = "mistral_rag_data"
     embeddings_function = embedding_functions.SentenceTransformerEmbeddingFunction(
         model_name=EMBEDDING_MODEL,
-        device='cpu' # Указываем устройство
+        device='cpu' 
     )
 
     # ИСПОЛЬЗУЕМ get_or_create_collection, чтобы гарантировать, что коллекция существует
