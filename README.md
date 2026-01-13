@@ -83,6 +83,10 @@ Agent  | accuracy_stability | found_count | accuracy_pct
    
 Файл с метриками и результами metrics.ipynb
 Установка окружения
-```bash poetry install```
+```bash 
+poetry install
+```
 Для корректной работы агентов:
-```bash docker-compose up neo4j```
+```bash 
+docker-compose up neo4j
+```
