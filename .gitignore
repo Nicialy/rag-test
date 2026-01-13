@@ -67,11 +67,11 @@ cover/
 .ruff_cache
 *.sqlite3
 *.bin
-*.txt
 # Translations
 *.mo
 *.pot
-
+output/
+my_data/
 # Django stuff:
 *.log
 local_settings.py
