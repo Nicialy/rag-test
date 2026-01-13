@@ -27,7 +27,19 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
+data/*
+logs/*
+logs2/*
+data2/*
+./chroma_db_pydantic_ai_1/*
+./chroma_db_pydantic_ai_2/*
+./chroma_db_pydantic_ai_3/*
+./chroma_db_pydantic_ai_4/*
+./chroma_fusion_db/*
+./chroma_hybrid_db/*
+*.db
+*.id
+*.arrays
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

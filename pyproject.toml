@@ -3,10 +3,10 @@ name = "RagTest"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Nicialy",email = "Nicialy@yandex.ru"}
+    {name = "Nicialy", email = "Nicialy@yandex.ru"}
 ]
 readme = "README.md"
-requires-python = "<4.0.0,>=3.10.0"
+requires-python = ">=3.10,<3.14"
 dependencies = [
     "pydantic-ai-slim[mistral] (>=1.9.1,<2.0.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
@@ -17,10 +17,33 @@ dependencies = [
     "langchain-huggingface (>=1.0.1,<2.0.0)",
     "langchain-mistralai (>=1.0.1,<2.0.0)",
     "langchain-community (>=0.4.1,<0.5.0)",
-    "langchain (>=1.0.5,<2.0.0)"
+    "langchain (>=1.0.5,<2.0.0)",
+    "spacy (>=3.8.8,<4.0.0)",
+    "neo4j (>=6.0.3,<7.0.0)",
+    "gender-guesser (>=0.4.0,<0.5.0)",
+    "tenacity (>=9.1.2,<10.0.0)",
+    "nltk (>=3.9.2,<4.0.0)",
+    "evaluate[comet] (>=0.4.6,<0.5.0)",
+    "dataframe-image (>=0.2.7,<0.3.0)",
+    "matplotlib (>=3.10.7,<4.0.0)",
+    "ebooklib (>=0.20,<0.21)",
+    # ВАЖНО: Удаляем torch отсюда, так как укажем его ниже с привязкой к источнику
 ]
 
+[tool.poetry.dependencies]
+# Здесь мы связываем пакеты с GPU-репозиторием
+torch = { version = ">=2.5.1", source = "pytorch_gpu" }
+torchvision = { version = ">=0.20.1", source = "pytorch_gpu" }
+torchaudio = { version = ">=2.5.1", source = "pytorch_gpu" }
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^7.1.0"
+
+[[tool.poetry.source]]
+name = "pytorch_gpu"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "explicit"

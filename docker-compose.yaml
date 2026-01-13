@@ -14,6 +14,19 @@ services:
     volumes:
       - ./data/neo4j:/data
       - ./logs/neo4j:/logs
+  
+  neo4j2:
+    image: neo4j:latest
+    container_name: neo4j-knowledge-graph2
+    ports:
+      - "7475:7474" # HTTP/Browser UI
+      - "7689:7687" # Bolt Protocol (для Python-клиента)
+    environment:
+      NEO4J_AUTH: neo4j/test12345
+      # NEO4J_db_mode: HA
+    volumes:
+      - ./data2/neo4j:/data
+      - ./logs2/neo4j:/logs
 
   # 2. СЕРВИС ВЕКТОРНОГО ХРАНИЛИЩА (Vector Store - Weaviate)
   chromadb:
