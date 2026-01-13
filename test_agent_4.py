@@ -196,7 +196,7 @@ async def translate_chapter_text(chapter_text, chapter_name,book_name) -> str:
     for i, chunk in enumerate(chunks):
         print(f"Обработка фрагмента {i+1}/{len(chunks)}...")
         await extract_characters_to_db(chunk,book_name)
-        # 1. Получаем контекст из прошлых глав вручную
+        # 1. Получаем контекст из прошлых глав 
         context_vector = await fetch_context_for_chunk(chunk,book_name)
         context_graph = graph.get_graph_context(book_name, chunk)
 

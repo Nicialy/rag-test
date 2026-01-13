@@ -43,7 +43,6 @@ class EpubBilingualParser:
                     if not text:
                         continue
                     
-                    # Если нашли заголовок главы (EN часть)
                     if self._is_new_chapter(text) and not p.find('i'):
                         current_chapter_name = text
                         if current_chapter_name not in chapters:
@@ -51,7 +50,6 @@ class EpubBilingualParser:
                         en_buffer = [] 
                         continue
 
-                    # Если нашли перевод (курсив)
                     if p.find('i'):
                         if en_buffer:
                             en_text = " ".join(en_buffer)
@@ -82,8 +80,6 @@ class EpubBilingualParser:
         for p_tag in soup.find_all('p'):
             lang_code = p_tag.get('lang')
             
-            # *** Ключевое изменение: Используем .get_text() с разделителем. ***
-            # separator='\n' заменяет все теги <br/> на символы переноса строки.
             clean_text = p_tag.get_text(separator='\n', strip=True) 
             
             if clean_text:
@@ -121,10 +117,8 @@ class EpubBilingualParser:
                             header = soup.find(['h1', 'h2', 'h3'])
                             chapter_title = header.get_text(strip=True) if header else f"Неизвестная Глава ({item.file_name})"
                             
-                            # Парсим, используя новую функцию, которая сохраняет абзацы
                             parsed_content = self.parse_chapter_content_with_paragraphs(content_html)
                             
-                            # Сохраняем списки абзацев
                             chapters_data[chapter_title] = {
                                 'book': item.file_name,
                                 'en': '\n\n'.join(parsed_content['english_paragraphs']),

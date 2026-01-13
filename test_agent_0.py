@@ -8,8 +8,6 @@ from tenacity import retry, stop_after_attempt, wait_fixed
 import re
 
 
-
-# Используем ваш сплиттер для нарезки главы
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
 class TranslationResponse(BaseModel):
@@ -37,20 +35,16 @@ def check_translate(original_text: str, translated_text: str, threshold_percent:
     
     latin_ratio = (latin_chars / total_chars) * 100 if total_chars > 0 else 0
 
-    # 2. Список фраз-исключений (которые точно можно оставить)
     exceptions = ["sumptibus moesti rei", "Chapter", "v."]
     temp_text = translated_text
     for ex in exceptions:
         temp_text = temp_text.replace(ex, "")
 
-    # 3. Проверка на китайский (обычно это 100% ошибка, оставляем жесткой)
     if re.search(r'[\u4e00-\u9fff]', translated_text):
         print("Найдена китайщина!")
         return True
 
-    # 4. Проверка на критическое превышение латиницы
     if latin_ratio > threshold_percent:
-        # Ищем первое вхождение для лога, чтобы понять, что это
         match = re.search(r'[a-zA-Z]', temp_text)
         if match:
             pos = match.start()
@@ -59,7 +53,6 @@ def check_translate(original_text: str, translated_text: str, threshold_percent:
         return True
 
 
-    # 5. Проверка на полноту (соотношение длин)
     if len(translated_text) < (len(original_text) * 0.6):
         print("Текст подозрительно короткий")
         return True

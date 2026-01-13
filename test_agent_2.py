@@ -46,12 +46,10 @@ async def extract_characters_to_db(text: str,book_name):
 
 
 
-# Используем ваш сплиттер для нарезки главы
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
-class HFAdapter(chromadb.EmbeddingFunction): # Добавляем наследование
+class HFAdapter(chromadb.EmbeddingFunction): 
     def __call__(self, input: chromadb.Documents) -> chromadb.Embeddings:
-        # Важно: возвращаем именно список векторов
         return hf_embeddings.embed_documents(input)
     
 

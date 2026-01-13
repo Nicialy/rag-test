@@ -14,7 +14,6 @@ from tenacity import retry, stop_after_attempt, wait_fixed
 import re
 import chromadb
 
-# --- 1. Ваши настройки ---
 CHROMA_PATH = "chroma_db_pydantic_ai_2"
 EMBEDDING_MODEL_NAME = 'intfloat/multilingual-e5-large'
 
@@ -25,12 +24,10 @@ hf_embeddings =  HuggingFaceEmbeddings(
 )
 
 
-# Используем ваш сплиттер для нарезки главы
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
-class HFAdapter(chromadb.EmbeddingFunction): # Добавляем наследование
+class HFAdapter(chromadb.EmbeddingFunction): 
     def __call__(self, input: chromadb.Documents) -> chromadb.Embeddings:
-        # Важно: возвращаем именно список векторов
         return hf_embeddings.embed_documents(input)
     
 
